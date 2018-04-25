@@ -40,10 +40,9 @@ var SpacebookApp = function () {
       }
       
       $('.add-comment').on('click', function () {
-        //var text = $('.comment-name').val();
+        // Get the input comment of the current post we enter
         var text = $(this).parent().find('.comment-name').val();
 
-        //var text = $(current).parent().find('.comment-name').val();
         app.createComment(this, text);
         // Update the view of the comments
         app.renderComments(this);
