@@ -39,14 +39,6 @@ var SpacebookApp = function () {
           commentsContainer + '</div>');
       }
       
-      $('.add-comment').on('click', function () {
-        // Get the input comment of the current post we enter
-        var text = $(this).parent().find('.comment-name').val();
-
-        app.createComment(this, text);
-        // Update the view of the comments
-        app.renderComments(this);
-      });
     }
 
     var renderComments = function (currentPost) {
@@ -54,7 +46,7 @@ var SpacebookApp = function () {
       var id = $(currentPost).closest('.post').data().id;
       // Get the post from which we have to update the view
       var post = _findPostById(id);
-      var $comments = $(currentPost).parent().find(".comments");
+      var $comments = $(currentPost).closest('.post').find(".comments");
       // Clear the comments area
       $comments.empty();
       
@@ -129,7 +121,7 @@ app.renderPosts();
 // Events
 $('.add-post').on('click', function () {
     var text = $('#post-name').val();
-
+    
     app.createPost(text);
     app.renderPosts();
 });
@@ -138,15 +130,30 @@ $('.posts').on('click', '.remove', function () {
     app.removePost(this);
 });
 
-$('.posts').on('click', '.show-comments', function () {
-    app.toggleComments(this);
-    app.renderComments(this);
+$('.posts').on('click', '.add-comment', function () {
+  // Get the input comment of the current post we enter
+  // We bind the button for click events
+  // Inside the click handler this refers to the button that was clicked.
+  // We wrap this with $ so that we can use some jQuery functions on it
+  // Use closest() to find the nearest div by traversing up the DOM tree.
+  // Use find() to find the nearest input by traversing down the DOM tree
+  // Use val to grab the text from the input.
+  var text = $(this).closest(".post").find(".comment-name").val();
+  // It's not recommended to use the parent() method
+  // var text = $(this).parent().find('.comment-name').val();
+
+  app.createComment(this, text);
+  // Update the view of the comments
+  app.renderComments(this);
 });
 
-
 $('.posts').on('click', '.comment', function () {
-
   app.removeComment(this);
   // Update the view of the comments
+  app.renderComments(this);
+});
+
+$('.posts').on('click', '.show-comments', function () {
+  app.toggleComments(this);
   app.renderComments(this);
 });
