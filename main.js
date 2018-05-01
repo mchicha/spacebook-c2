@@ -1,36 +1,18 @@
 var SpacebookApp = function () {
-  // dummy data
-  var posts = [
-   /*  {
-      text: "Hello world 1", comments: [
-        { text: "Man, this is a comment 1!" },
-        { text: "Man, this is a comment 2!" },
-        { text: "Man, this is a comment 3!" }
-      ]
-    },
-    {
-      text: "Hello world 2", comments: [
-        { text: "Man, this is a comment 1!" },
-        { text: "Man, this is a comment 2!" },
-        { text: "Man, this is a comment 3!" }
-      ]
-    },
-    {
-      text: "Hello world 3", comments: [
-        { text: "Man, this is a comment 1!" },
-        { text: "Man, this is a comment 2!" },
-        { text: "Man, this is a comment 3!" }
-      ]
-    } */
-  ];
-
-  // render posts to page
-  // this function empties the posts div, 
-  // then adds each post them from the posts array 
-  // along with the appropriate HTML
-  var _renderPosts = function () {
-    // variable for storing our posts div
+    // dummy data
+    var posts = [];
+    
+    // render posts to page
+    // this function empties the posts div, 
+    // then adds each post them from the posts array 
+    // along with the appropriate HTML
+    var _renderPosts = function () {
+      // variable for storing our posts div
     var $posts = $('.posts');
+
+    var STORAGE_ID = 'spacebook';
+
+
 
     $posts.empty();
 
@@ -44,6 +26,16 @@ var SpacebookApp = function () {
         '<a href="#" class="show-comments">Toggle Comments </a> ' +
         post.text + '<button class="btn btn-danger btn-sm remove">Remove Post</button> ' + commentsContainer + '</li>');
     }
+  }
+  
+  var saveToLocalStorage = function () {
+    // convert the posts object to JSON string and put it as the value
+    // of the STORAGE_ID key in the localStorage
+    localStorage.setItem(STORAGE_ID, JSON.stringify(posts));
+  }
+
+  var getFromLocalStorage = function () {
+    return JSON.parse(localStorage.getItem(STORAGE_ID) || '[]');
   }
 
   var _renderComments = function () {
@@ -119,14 +111,19 @@ var app = SpacebookApp();
 
 $('.add-post').on('click', function (e) {
   var text = $('#post-name').val();
+  
+  posts = getFromLocalStorage(); 
   app.createPost(text);
+  app.saveToLocalStorage();
 });
 
 $('.posts').on('click', '.remove', function () {
   var $clickedPost = $(this).closest('.post');
   var index = $clickedPost.index();
 
+  posts = getFromLocalStorage(); 
   app.removePost($clickedPost, index);
+  app.saveToLocalStorage(); 
 });
 
 $('.posts').on('click', '.add-comment', function () {
@@ -134,7 +131,9 @@ $('.posts').on('click', '.add-comment', function () {
   // finding the index of the post in the page... will use it in #createComment
   var postIndex = $(this).closest('.post').index();
 
+  posts = getFromLocalStorage(); 
   app.createComment(text, postIndex);
+  app.saveToLocalStorage(); 
 });
 
 $('.posts').on('click', '.remove-comment', function () {
@@ -145,7 +144,9 @@ $('.posts').on('click', '.remove-comment', function () {
   // index of the post in the posts div that the comment belongs to
   var postIndex = $clickedComment.closest('.post').index();
 
+  posts = getFromLocalStorage(); 
   app.removeComment($clickedComment, commentIndex, postIndex);
+  app.saveToLocalStorage();
 });
 
 $('.posts').on('click', '.show-comments', function () {
