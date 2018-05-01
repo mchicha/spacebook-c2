@@ -1,7 +1,7 @@
 var SpacebookApp = function () {
   // dummy data
   var posts = [
-    {
+   /*  {
       text: "Hello world 1", comments: [
         { text: "Man, this is a comment 1!" },
         { text: "Man, this is a comment 2!" },
@@ -21,7 +21,7 @@ var SpacebookApp = function () {
         { text: "Man, this is a comment 2!" },
         { text: "Man, this is a comment 3!" }
       ]
-    }
+    } */
   ];
 
   // render posts to page
