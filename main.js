@@ -109,21 +109,21 @@ var app = SpacebookApp();
 
 // Event Handlers below
 
-$('.add-post').on('click', function (e) {
+$('.add-post').on('click', function () {
   var text = $('#post-name').val();
   
-  posts = getFromLocalStorage(); 
+  //posts = getFromLocalStorage(); 
   app.createPost(text);
-  app.saveToLocalStorage();
+  //app.saveToLocalStorage();
 });
 
 $('.posts').on('click', '.remove', function () {
   var $clickedPost = $(this).closest('.post');
   var index = $clickedPost.index();
 
-  posts = getFromLocalStorage(); 
+  //posts = getFromLocalStorage(); 
   app.removePost($clickedPost, index);
-  app.saveToLocalStorage(); 
+  //app.saveToLocalStorage(); 
 });
 
 $('.posts').on('click', '.add-comment', function () {
@@ -131,9 +131,9 @@ $('.posts').on('click', '.add-comment', function () {
   // finding the index of the post in the page... will use it in #createComment
   var postIndex = $(this).closest('.post').index();
 
-  posts = getFromLocalStorage(); 
+  //posts = getFromLocalStorage(); 
   app.createComment(text, postIndex);
-  app.saveToLocalStorage(); 
+  //app.saveToLocalStorage(); 
 });
 
 $('.posts').on('click', '.remove-comment', function () {
@@ -144,9 +144,9 @@ $('.posts').on('click', '.remove-comment', function () {
   // index of the post in the posts div that the comment belongs to
   var postIndex = $clickedComment.closest('.post').index();
 
-  posts = getFromLocalStorage(); 
+  //posts = getFromLocalStorage(); 
   app.removeComment($clickedComment, commentIndex, postIndex);
-  app.saveToLocalStorage();
+  //app.saveToLocalStorage();
 });
 
 $('.posts').on('click', '.show-comments', function () {
